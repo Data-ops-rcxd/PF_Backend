@@ -6,8 +6,8 @@ import mongoose from "mongoose";
 const app = express();
 //Connecting to the database
 mongoose
-  .connect("----link al cluster de la base de datos aquí----", {
-    dbName: "--nombre de la base de datos--",
+  .connect("mongodb+srv://clusterpfbackend.zpps5bs.mongodb.net", {
+    dbName: "db_Cachanflas",
     user: process.env.Mongo_user,
     pass: process.env.Mongo_pass,
   })
@@ -21,8 +21,8 @@ mongoose
 app.use(cors());
 
 //Routes
-import usersRouter from "./Database/---";
-app.use("/---", usersRouter);
+// import usersRouter from "./Database/---";
+// app.use("/---", usersRouter);
 
 //connection port
 const port = 3000;

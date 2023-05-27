@@ -6,6 +6,7 @@
   "scripts": {
     "test": "nodemon app.js"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Data-ops-rcxd/PF_Backend.git"

@@ -1,0 +1,27 @@
+{
+  "name": "pf_backend",
+  "version": "1.0.0",
+  "description": "PF_Backend",
+  "main": "app.js",
+  "scripts": {
+    "test": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Data-ops-rcxd/PF_Backend.git"
+  },
+  "author": "David-Tache_Roberto-Maldonado_Giuliano-Frieri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Data-ops-rcxd/PF_Backend/issues"
+  },
+  "homepage": "https://github.com/Data-ops-rcxd/PF_Backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^7.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

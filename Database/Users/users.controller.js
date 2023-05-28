@@ -1,61 +1,80 @@
 import Users from "./users.model.js";
+// jwt key and imports.
+import jwt from "jsonwebtoken";
+const secretKey = process.env.secretKey;
 
-//crea usuario (working)
+
+//crea usuario (need test)
 export async function createUser(req, res) {
   try {
-    const user = req.body;
-    req.body.isDisable = "false";
-    const document = await Users.create(user);
-    res.status(201).send({result: "User created"});
+    const userinfo = req.body;
+    console.log(userinfo);
+    const document = await Users.create(userinfo);
+    res.status(201).send(document);
   } catch (err) {
     res.status(500).json(err.message);
   }
 }
-//buscar por id (working)
+//buscar por id (need test)
 export async function getUserbyID(req, res) {
   try {
-    const filter = req.params.number;
+    const filter = req.params.id;
     const value = await Users.findOne({ _id: filter, isDisable: false });
     value ? res.status(200).json(value) : res.sendStatus(404);
   } catch (err) {
     res.status(500).json(err.message);
   }
 }
-//busca por email y contraseña (working)
+//busca por email y contraseña (need test)
 export async function getUserbyName_pass(req, res) {
   try {
-    const { email, cdi } = req.params;
-    const response = await Users.findOne({
-      email: email,
-      CDI: cdi,
+    const user = req.body;
+    const found = await Users.findOne({
+      email: user.email,
+      password: user.password,
       isDisable: false,
     });
-    response ? res.status(200).json(response) : res.status(404).json({error: "Not found"});
+    if (found) {
+      const token = jwt.sign({ userId: found._id }, secretKey);
+      res.status(200).json({ token });
+    } else {
+      res.status(404).json({ error: "Not found" });
+    }
   } catch (err) {
     res.status(500).json(err.message);
   }
 }
-//actualiza (working)
+//actualiza (need test)
 export async function patchUser(req, res) {
   try {
-    const id = req.params.id;
+    const token = req.headers.authorization;
+    const decode = jwt.verify(token, secretKey);
+    console.log(decode);
+    if (!decode) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
     const document = await Users.findOneAndUpdate(
-      { _id: id, isDisable: false },
+      { _id: decode.userId, isDisable: false },
       req.body,
       { runValidators: true }
     );
     document ? res.status(200).json("changes applied") : res.sendStatus(404);
   } catch (err) {
-    res.status(200).json(err.message);
+    res.status(500).json(err.message);
   }
 }
-//"elimina", osea soft delete (working)
+//"elimina", osea soft delete (need test)
 export async function deleteUser(req, res) {
   try {
-    const id = req.params.id;
-    const document = await Users.findByIdAndUpdate(id, { isDisable: true });
+    const token = req.headers.authorization;
+    const decode = jwt.verify(token, secretKey);
+    console.log(decode);
+    if (!decode) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+    const document = await Users.findByIdAndUpdate(decode.userId, { isDisable: true });
     document ? res.status(200).json("changes applied") : res.sendStatus(404);
   } catch (err) {
-    res.status(200).json(err.message);
+    res.status(500).json(err.message);
   }
 }

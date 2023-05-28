@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import bodyParser from "body-parser";
 
 //Creating app
 const app = express();
@@ -19,10 +20,11 @@ mongoose
   });
 //Middlewares
 app.use(cors());
+app.use(bodyParser.json())
 
 //Routes
-// import usersRouter from "./Database/---";
-// app.use("/---", usersRouter);
+import usersRouter from "./Database/Users/users.router.js";
+app.use("/User", usersRouter);
 
 //connection port
 const port = 3000;

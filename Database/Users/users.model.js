@@ -4,8 +4,8 @@ const userSchema = mongoose.Schema(
   {
     name: { type: String, required: [true] },
     password: { type: String, required: [true] },
-    email: { type: String, required: [true], unique: [true] },
-    // aun faltan vainas
+    email: { type: String, required: [true], unique: [true] },    //Products reference/foering key
+    categories: { type: String, require: [true] },
     isDisable: { type: Boolean, default: false },
   },
   { timestamps: true }

@@ -1,10 +1,8 @@
-import { Schema, model } from 'mongoose';
+import mongoose from 'mongoose';
 
-const ordersSchema = new Schema(
+const ordersSchema =  mongoose.Schema(
   {
-    id: { type: String, required: true, unique: [true] },
-    user_id: { type: String, required: true },
-    restaurante_id: { type: String, required: true },
+    userid: { type: String, required: true },
     state: {
       type: String,
       required: true,
@@ -17,14 +15,15 @@ const ordersSchema = new Schema(
         'realizado',
       ],
     },
-    calificacion: { type: Number, required: true },
-    comentarios: { type: String, required: false },//realmente no se como quedaria (Update)
-    active: Boolean,
+    products: { type: Array, required: [true]},
+    comments: { type: String },
+    rating: { type: Number },
+    totalprice: {type: Number },
+    isDisable: { type: Boolean, default: [false] },
   },
   {
     timestamps: true,
   }
 );
 
-const ordersModel = model('orders', ordersSchema);
-export default ordersModel;
+export default mongoose.model('orders', ordersSchema);

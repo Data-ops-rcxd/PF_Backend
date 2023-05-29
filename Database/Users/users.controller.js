@@ -17,11 +17,6 @@ export async function createUser(req, res) {
 //buscar por id (working)
 export async function getUserbyID(req, res) {
   try {
-    /*
-    const id = req.params.id;
-    const document = await usuarioModel.findOne({ _id: id, active: true });
-    res.status(200).json(document);
-    */
     const filter = req.params.id;
     const value = await Users.findOne({ _id: filter, isDisable: false });
     value ? res.status(200).json(value) : res.sendStatus(404);
@@ -56,14 +51,6 @@ export async function patchUser(req, res) {
     if (!decode) {
       return res.status(401).json({ message: 'Invalid token' });
     }
-    /*
-    const id = req.params.id;
-    const document = await usuarioModel.findByIdAndUpdate(id, req.body, {
-      runValidators: true,
-      new: true,
-    });
-    res.status(200).json(document);
-    */
     const document = await Users.findOneAndUpdate(
       { _id: decode.userId, isDisable: false },
       req.body,
@@ -83,15 +70,6 @@ export async function deleteUser(req, res) {
     if (!decode) {
       return res.status(401).json({ message: 'Invalid token' });
     }
-    /*
-    const id = req.params.id;
-    const document = await usuarioModel.findByIdAndUpdate(
-      id,
-      { active: false },
-      { new: true }
-    );
-    res.status(200).json(document);
-    */
     const document = await Users.findByIdAndUpdate(decode.userId, { isDisable: true });
     document ? res.status(200).json("changes applied") : res.sendStatus(404);
   } catch (err) {

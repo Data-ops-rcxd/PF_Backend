@@ -3,6 +3,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 
+import request from "supertest";
+
 //Creating app
 const app = express();
 //Connecting to the database
@@ -25,6 +27,16 @@ app.use(bodyParser.json())
 //Routes
 import usersRouter from "./Database/Users/users.router.js";
 app.use("/User", usersRouter);
+
+
+test('supertest', async () => {
+  const response = await request(app)
+  .get('/User/finduserJWT')
+  .send()
+  expect(response.status).toBe(200)
+  })
+  
+
 
 //connection port
 const port = 3000;

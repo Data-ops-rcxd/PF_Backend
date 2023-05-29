@@ -21,7 +21,7 @@ export async function createProduct(req, res) {
       const document = await productsModel.create(product);
       res.status(201).json(document);
     } catch (error) {
-      res.status(400).json(error.message);
+      res.status(500).json(error.message);
     }
   }
 //read product id
@@ -31,7 +31,7 @@ export async function getProduct(req, res) {
       const document = await productsModel.findOne({ _id: id, isDisable: false });
       res.status(200).json(document);
     } catch (error) {
-      res.status(400).json(error.message);
+      res.status(500).json(error.message);
     }
   }
 //read usuario, texto y categoria
@@ -42,14 +42,14 @@ export async function getProductbyUTandorC(req, res) {
         ...(categoria && { categoria: categoria }),
         ...(nom && { nom: nom }),//lo que no se es como hacer para filtrarlo para que envez de que tenga que ser igual simplemente funcione con que contenga ese nombre
         ...(userid && { userid: userid }),
-        active: true,
+        isDisable: false,
       };
       const documents = await productoModel.find(filter);
       documents.length > 0
         ? res.status(200).json(documents)
         : res.sendStatus(404);
     } catch (error) {
-      res.status(400).json(error.message);
+      res.status(500).json(error.message);
     }
   }
 
@@ -67,7 +67,7 @@ export async function getCategoriesbyUser(req, res) {
         ? res.status(200).json(documents.categoria)
         : res.sendStatus(404);
     } catch (error) {
-      res.status(400).json(error.message);
+      res.status(500).json(error.message);
     }
   }
 
@@ -84,7 +84,7 @@ export async function patchProduct(req, res) {
       const document = await productsModel.findOneAndUpdate({userid: decode.userId, _id: id}, req.body,{ runValidators: true });
       document ? res.status(200).json("Changes applied") : res.status(404).json("Product not found or user didn't create this product");
     } catch (error) {
-      res.status(400).json(error.message);
+      res.status(500).json(error.message);
     }
   }
 

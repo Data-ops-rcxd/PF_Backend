@@ -3,13 +3,13 @@ import {Router} from 'express';
 const router = Router();
 
 // Endpoint GET
-router.get('/:id', getOrder );
-router.get('/:user_id/:initial_date/:final_date', getOrderbyUandorD );
+router.get('/findorder/:id', getOrder );
+router.get('/findorderby', getOrderbyUandorD );
 
 // Endpoint POST
-router.post('/', createOrder );
+router.post('/createorder', createOrder );
 
 // Endpoint PATCH
-router.patch('/:id/:calificacion/:comentarios', patchOrder);
+router.patch('/updateorder', patchOrder);
 
 export default router;

@@ -3,8 +3,6 @@ import cors from "cors";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 
-import request from "supertest";
-
 //Creating app
 const app = express();
 //Connecting to the database
@@ -28,15 +26,7 @@ app.use(bodyParser.json())
 import usersRouter from "./Database/Users/users.router.js";
 app.use("/User", usersRouter);
 
-
-test('supertest', async () => {
-  const response = await request(app)
-  .get('/User/finduserJWT')
-  .send()
-  expect(response.status).toBe(200)
-  })
-  
-
+//Ya instalé los paquetes de jest y supertest, npi de como usarlos
 
 //connection port
 const port = 3000;

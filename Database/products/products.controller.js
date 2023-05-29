@@ -2,9 +2,10 @@
 import productsModel from "./products.model.js";
 // jwt key and imports.
 import jwt from "jsonwebtoken";
-//creo que un problema que puede pasar es que esta secret key de aqui no es la misma que la del usuario (Y debe ser asi).
-//O al menos asi lo entiendo, puesto que no necesita key para el jwt en el usuario entonces asumo que se usa eso para darle la key y que pueda hacer todos los demas procesos que si necesitan una key 
+/* se usa la secretkey para que el servidor pueda decodificar el token que el usario manda de regreso, si no tiene esa 
+secretkey entonces el usuario no reconocido y no se le da acceso a donde quiere ir, en este caso al endpoint */
 const secretKey = process.env.secretKey;
+
 //create
 export async function createProduct(req, res) {
     
@@ -15,7 +16,8 @@ export async function createProduct(req, res) {
             return res.status(401).json({ message: 'Invalid token' });
         }
       const product = req.body;
-      req.body.active = true;
+      req.body.isDisable = false;
+      product.userid = decode.userId;
       const document = await productsModel.create(product);
       res.status(201).json(document);
     } catch (error) {
@@ -26,7 +28,7 @@ export async function createProduct(req, res) {
 export async function getProduct(req, res) {
     try {
       const id = req.params.id;
-      const document = await productsModel.findOne({ _id: id, active: true });
+      const document = await productsModel.findOne({ _id: id, isDisable: false });
       res.status(200).json(document);
     } catch (error) {
       res.status(400).json(error.message);
@@ -79,11 +81,8 @@ export async function patchProduct(req, res) {
         return res.status(401).json({ message: 'Invalid token' });
       }
       const id = req.params.id;
-      const document = await productsModel.findByIdAndUpdate(id, req.body, {
-        runValidators: true,
-        new: true,
-      });
-      res.status(200).json(document);
+      const document = await productsModel.findOneAndUpdate({userid: decode.userId, _id: id}, req.body,{ runValidators: true });
+      document ? res.status(200).json("Changes applied") : res.status(404).json("Product not found or user didn't create this product");
     } catch (error) {
       res.status(400).json(error.message);
     }
@@ -98,12 +97,8 @@ export async function deleteProduct(req, res) {
         return res.status(401).json({ message: 'Invalid token' });
       }
       const id = req.params.id;
-        const document = await productsModel.findByIdAndUpdate(
-        id,
-        { active: false },
-        { new: true }
-        );
-        res.status(200).json(document);
+      const document = await productsModel.findOneAndUpdate({userid: decode.userId, _id: id}, { isDisable: true });
+      document ? res.status(200).json("Changes applied") : res.status(404).json("Product not found or user didn't create this product");
     } catch (err) {
       res.status(500).json(err.message);
     }

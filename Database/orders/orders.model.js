@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 
 const ordersSchema =  mongoose.Schema(
   {
-    userid: { type: String, required: true },
+    userid: { type: String, required: [true] },
     state: {
       type: String,
-      required: true,
+      required: [true],
       enum: [
         'creado',
         'enviado',

@@ -4,7 +4,7 @@ const router = Router();
 
 // Endpoint GET
 router.get('/ProductbyID/:id', getProduct );
-router.get('/searchproducts/:nom/:categoria/:userid', getProductbyUTandorC );
+router.get('/searchproducts/', getProductbyUTandorC );
 router.get('/categoriesbyuser/:userid', getCategoriesbyUser );
 
 // Endpoint POST

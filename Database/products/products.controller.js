@@ -9,7 +9,7 @@ const secretKey = 'pepeconpan';
 export async function createProduct(req, res) {
   try {
     const token = req.headers.authorization;
-    try{
+    try {
       const decode = jwt.verify(token, secretKey);
       if (!decode) {
         return res.status(401).json({ message: "Invalid token" });
@@ -19,7 +19,7 @@ export async function createProduct(req, res) {
       product.userid = decode.userId;
       const document = await productsModel.create(product);
       res.status(201).json(document);
-    }catch{
+    } catch {
       res.status(401).json("invalid signature");
     }
   } catch (error) {
@@ -32,7 +32,7 @@ export async function getProduct(req, res) {
     const id = req.params.id;
 
     const document = await productsModel.findOne({ _id: id, isDisable: false });
-    document ? res.status(200).json(document): res.sendStatus(404);;
+    document ? res.status(200).json(document) : res.sendStatus(404);;
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -40,18 +40,22 @@ export async function getProduct(req, res) {
 //read usuario, texto y categoria
 export async function getProductbyUTandorC(req, res) {
   try {
-    console.log('sipasa')
+
     const { categoria, nom, userid } = req.query;
-    const filter = {
-      ...(categoria && { categories: { $in: [categoria] } }),
-      ...(nom && { description: { $search: nom } }),//cambie esto
-      ...(userid && { userid: userid }),
-      isDisable: false,
-    };
-    const documents = await productsModel.find(filter);
-    documents.length > 0
-      ? res.status(200).json(documents)
-      : res.sendStatus(404);
+    if (categoria, nom, userid == undefined) {
+      res.sendStatus(401);//tengo que preguntar que error deberia poner
+    } else {
+      const filter = {
+        ...(categoria && { categories: { $in: [categoria] } }),
+        ...(nom && { description: { $search: nom } }),//cambie esto
+        ...(userid && { userid: userid }),
+        isDisable: false,
+      };
+      const documents = await productsModel.find(filter);
+      documents.length > 0
+        ? res.status(200).json(documents)
+        : res.sendStatus(404);
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -67,12 +71,11 @@ export async function getCategoriesbyUser(req, res) {
     });
     const categoriesSet = new Set();
     documents.forEach((product) => {
-      product.categoria.forEach((category) => {
+      product.categories.forEach((category) => {
         categoriesSet.add(category);
       });
     });
     const categories = Array.from(categoriesSet);
-
     categories.length > 0
       ? res.status(200).json(categories)
       : res.sendStatus(404);
@@ -85,21 +88,25 @@ export async function getCategoriesbyUser(req, res) {
 export async function patchProduct(req, res) {
   try {
     const token = req.headers.authorization;
-    const decode = jwt.verify(token, secretKey);
-    if (!decode) {
-      return res.status(401).json({ message: "Invalid token" });
-    }
-    const id = req.params.id;
-    const document = await productsModel.findOneAndUpdate(
-      { userid: decode.userId, _id: id },
-      req.body,
-      { runValidators: true }
-    );
-    document
-      ? res.status(200).json("Changes applied")
-      : res
+    try {
+      const decode = jwt.verify(token, secretKey);
+      if (!decode) {
+        return res.status(401).json({ message: "Invalid token" });
+      }
+      const id = req.params.id;
+      const document = await productsModel.findOneAndUpdate(
+        { userid: decode.userId, _id: id },
+        req.body,
+        { runValidators: true }
+      );
+      document
+        ? res.status(200).json("Changes applied")
+        : res
           .status(404)
           .json("Product not found or user didn't create this product");
+    } catch {
+      res.status(401).json("invalid signature");
+    }
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -109,20 +116,24 @@ export async function patchProduct(req, res) {
 export async function deleteProduct(req, res) {
   try {
     const token = req.headers.authorization;
-    const decode = jwt.verify(token, secretKey);
-    if (!decode) {
-      return res.status(401).json({ message: "Invalid token" });
-    }
-    const id = req.params.id;
-    const document = await productsModel.findOneAndUpdate(
-      { userid: decode.userId, _id: id },
-      { isDisable: true }
-    );
-    document
-      ? res.status(200).json("Changes applied")
-      : res
+    try {
+      const decode = jwt.verify(token, secretKey);
+      if (!decode) {
+        return res.status(401).json({ message: "Invalid token" });
+      }
+      const id = req.params.id;
+      const document = await productsModel.findOneAndUpdate(
+        { userid: decode.userId, _id: id },
+        { isDisable: true }
+      );
+      document
+        ? res.status(200).json("Changes applied")
+        : res
           .status(404)
           .json("Product not found or user didn't create this product");
+    } catch {
+      res.status(401).json("invalid signature");
+    }
   } catch (err) {
     res.status(500).json(err.message);
   }

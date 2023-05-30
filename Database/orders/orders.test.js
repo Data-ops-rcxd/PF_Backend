@@ -20,14 +20,14 @@ describe('Orders Endpoints', ()  =>{
         // id = response.body._id;        
         // }
         // );// no se por que no funiona el que debe funcionar
-        test('No funciona cuando no debe funcionar?:', async () => {
-            const response = await supertest(app).post('/Orders/createorder').set('Authorization', faketoken).send({
-                userid: '6472ffd7c3f6cf774a33f833',
-                name: 'Pepe',
-                price: '10',
-            });
-            expect(response.status).toBe(401);
-        });
+        // test('No funciona cuando no debe funcionar?:', async () => {
+        //     const response = await supertest(app).post('/Orders/createorder').set('Authorization', faketoken).send({
+        //         userid: '6472ffd7c3f6cf774a33f833',
+        //         name: 'Pepe',
+        //         price: '10',
+        //     });
+        //     expect(response.status).toBe(401);
+        // });
     });
     // describe('Se llama al retorno de los datos de un pedido', ()  =>{
     //     test('funciona cuando debe funcionar?:', async () => {

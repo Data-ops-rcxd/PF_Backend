@@ -4,12 +4,10 @@ import { describe } from 'yargs';
 
 describe('Se llama a la creacion de usuario', ()  =>{
     test('funciona cuando debe funcionar?:', async () => {
-        const response = await request(app).get('/createuser');
+            const response = await request(app).get('/createuser');
             expect(response.status).toBe(200); // Verify the response status code
             expect(response.body).toHaveProperty('users'); // Verify the response body or specific properties
             expect(Array.isArray(response.body.users)).toBe(true); // Additional assertions on the response data
-            test('No funciona cuando no debe funcionar?:', async () => {
-        });
         });
     test('No funciona cuando no debe funcionar?:', async () => {
         });

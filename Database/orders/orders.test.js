@@ -7,11 +7,11 @@ describe('Se llama a la creacion de pedido', ()  =>{
         const response = await request(app).get('/api/users');
             expect(response.status).toBe(200); // Verify the response status code
             expect(response.body).toHaveProperty('users'); // Verify the response body or specific properties
-            expect(Array.isArray(response.body.users)).toBe(true); // Additional assertions on the response data
-            test('No funciona cuando no debe funcionar?:', async () => {
-        });
+            expect(Array.isArray(response.body.users)).toBe(true); // Additional assertions on the response data           
      }
     );
+    test('No funciona cuando no debe funcionar?:', async () => {
+    });
 });
 describe('Se llama al retorno de los datos de un pedido', ()  =>{
     test('funciona cuando debe funcionar?:', async () => {

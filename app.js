@@ -25,9 +25,9 @@ app.use(bodyParser.json())
 //Routes
 import usersRouter from "./Database/Users/users.router.js";
 app.use("/User", usersRouter);
-import usersRouter from "./Database/Products/products.router.js";
+import usersRouter from "./Database/products/products.router.js";
 app.use("/Products", usersRouter);
-import usersRouter from "./Database/Orders/orders.router.js";
+import usersRouter from "./Database/orders/orders.router.js";
 app.use("/Orders", usersRouter);
 
 //Ya instalé los paquetes de jest y supertest, npi de como usarlos

@@ -40,3 +40,4 @@ try {
   console.log(error);
 }
 
+export default app

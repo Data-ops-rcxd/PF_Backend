@@ -4,6 +4,7 @@ const router = Router();
 
 // Endpoint GET
 router.get('/finduser/:id', getUserbyID );
+
 router.get('/finduserJWT', getUserbyName_pass );
 
 // Endpoint POST
@@ -14,5 +15,7 @@ router.patch('/updateuser', patchUser );
 
 // Endpoint DELETE
 router.delete('/deleteuser', deleteUser );
+
+//Pruebas unitarias
 
 export default router;

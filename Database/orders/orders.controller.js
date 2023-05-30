@@ -7,6 +7,8 @@ const secretKey = 'pepeconpan';
 export async function createOrder(req, res) {
   try {
     const token = req.headers.authorization;
+    console.log('si'+token)
+    try{
     const decode = jwt.verify(token, secretKey);
     if (!decode) {
       return res.status(401).json({ message: "Invalid token" });
@@ -16,6 +18,9 @@ export async function createOrder(req, res) {
     pedido.userid = decode.userId;
     const document = await ordersModel.create(pedido);
     res.status(201).json(document);
+  }catch{
+    res.status(401).json("invalid signature");
+  }
   } catch (error) {
     res.status(500).json(error.message);
   }

@@ -6,13 +6,9 @@ const secretKey = process.env.secretKey;
 //crea usuario (working)
 export async function createUser(req, res) {
   try {
-    console.log("1")
     const userinfo = req.body;
-    console.log("1.5")
     const document = await Users.create(userinfo);
-    console.log("2")
     res.status(201).send(document); 
-    console.log("3")
   } catch (err) {
     res.status(500).json(err.message);
   }

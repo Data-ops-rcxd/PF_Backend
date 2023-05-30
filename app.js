@@ -9,8 +9,8 @@ const app = express();
 mongoose
   .connect("mongodb+srv://clusterpfbackend.zpps5bs.mongodb.net", {
     dbName: "db_Cachanflas",
-    user: process.env.Mongo_user,
-    pass: process.env.Mongo_pass,
+    user: "tached",
+    pass: "MbjGNVVRA06StpS6",
   })
   .then(() => {
     console.log("Database connected.");
@@ -31,17 +31,5 @@ import ordersRouter from "./Database/orders/orders.router.js";
 app.use("/Orders", ordersRouter);
 
 //Ya instalé los paquetes de jest y supertest, npi de como usarlos
-
-//connection port
-const port = 3000;
-const ipAddress = '0.0.0.0'
-//Trying connection
-try {
-  app.listen(port, ipAddress,() => {
-    console.log('Server started in port: ' + port + ' with address: ' + ipAddress);
-  });
-} catch (error) {
-  console.log(error);
-}
 
 export default app

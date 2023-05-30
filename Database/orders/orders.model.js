@@ -15,7 +15,7 @@ const ordersSchema =  mongoose.Schema(
         'realizado',
       ],
     },
-    products: { type: Array, required: [true]},
+    productID: { type: String, required: [true]},
     comments: { type: String },
     rating: { type: Number },
     totalprice: {type: Number },

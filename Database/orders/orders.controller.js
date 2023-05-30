@@ -17,7 +17,7 @@ export async function createOrder(req, res) {
     const document = await ordersModel.create(pedido);
     res.status(201).json(document);
   } catch (error) {
-    res.status(500).json(error.message); //creo que a estos res.status deberiamos darles return, no? R// No, no es necesario
+    res.status(500).json(error.message);
   }
 }
 //get //id

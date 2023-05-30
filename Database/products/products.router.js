@@ -3,12 +3,12 @@ import {Router} from 'express';
 const router = Router();
 
 // Endpoint GET
-router.get('/:id', getProduct );
-router.get('/:categoria/:texto/:userid', getProductbyUTandorC );
-router.get('/:userid/', getCategoriesbyUser );
+router.get('/ProductbyID/:id', getProduct );
+router.get('/searchproducts/:nom/:categoria/:userid', getProductbyUTandorC );
+router.get('/categoriesbyuser/:userid', getCategoriesbyUser );
 
 // Endpoint POST
-router.post('/', createProduct );
+router.post('/createproduct', createProduct );
 
 // Endpoint PATCH
 router.patch('/:id', patchProduct);

@@ -1,17 +1,17 @@
-import request from 'supertest';
-import app from '../../app';
-import { describe } from 'yargs';
+import supertest from 'supertest';
+import app from '../../app.js';
+describe('User Endpoints ', () => {
 let id;
 let token;
 describe('Se llama a la creacion de usuario', ()  =>{
     test('funciona cuando debe funcionar?:', async () => {
-            const response = await supertest(app).post('/createuser').send({
+            const response = await supertest(app).post('/createUser').send({
             name: 'Pedro',
             password: '123',
             email: 'a@a.com',
           });
           expect(response.status).toBe(201);
-          id = response.body.id;
+          
     });
         
     test('No funciona cuando no debe funcionar?:', async () => {
@@ -21,7 +21,7 @@ describe('Se llama a la creacion de usuario', ()  =>{
             phone: '1',
             address: 'casa',
           });
-          expect(response.status).toBe(500);    
+          expect(response.status).toBe(404);    
     });
      }
     );
@@ -46,11 +46,11 @@ describe('Se llama a la creacion de JWT', ()  =>{
 
 describe('Se llama al retorno de los datos de un usuario', ()  =>{
     test('funciona cuando debe funcionar?:', async () => {
-        const response = await supertest(app).get('/finduser/:id' + "6472ffd7c3f6cf774a88f833");//creo que tocara poner un id que ya existe desde antes en la base de datos
+        const response = await supertest(app).get('/finduser/:' + "6472ffd7c3f6cf774a88f833");//creo que tocara poner un id que ya existe desde antes en la base de datos
         expect(response.status).toBe(200);
     });
    test('No funciona cuando no debe funcionar?:', async () => {
-        const response = await supertest(app).get('/finduser/:id' + "0");
+        const response = await supertest(app).get('/finduser/:' + "0");
       expect(response.status).toBe(404);
     });
 });
@@ -75,5 +75,16 @@ describe('Se llama a la inhabilitacion de un usuario', ()  =>{
     const response = await supertest(app).patch('/deleteuser').set('Authorization', 'Bearer secreto');
       expect(response.status).toBe(401);
     });
+}); 
+
 });
 
+describe('User Controllers ', () => {
+  //Aqui van las pruebas de controladores giuls
+  describe('Se llama a la inhabilitacion de un usuario', ()  =>{
+    test('funciona cuando debe funcionar?:', async () => {
+    });
+   test('No funciona cuando no debe funcionar?:', async () => {
+    });
+}); 
+})

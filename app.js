@@ -24,11 +24,11 @@ app.use(bodyParser.json())
 
 //Routes
 import usersRouter from "./Database/Users/users.router.js";
-app.use("/User", usersRouter);
-import usersRouter from "./Database/products/products.router.js";
-app.use("/Products", usersRouter);
-import usersRouter from "./Database/orders/orders.router.js";
-app.use("/Orders", usersRouter);
+app.use("/Users", usersRouter);
+import productsRouter from "./Database/products/products.router.js";
+app.use("/Products", productsRouter);
+import ordersRouter from "./Database/orders/orders.router.js";
+app.use("/Orders", ordersRouter);
 
 //Ya instalé los paquetes de jest y supertest, npi de como usarlos
 

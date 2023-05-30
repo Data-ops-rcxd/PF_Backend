@@ -3,21 +3,25 @@ import productsModel from "./products.model.js";
 import jwt from "jsonwebtoken";
 /* se usa la secretkey para que el servidor pueda decodificar el token que el usario manda de regreso, si no tiene esa 
 secretkey entonces el usuario no reconocido y no se le da acceso a donde quiere ir, en este caso al endpoint */
-const secretKey = process.env.secretKey;
+const secretKey = 'pepeconpan';
 
 //create
 export async function createProduct(req, res) {
   try {
     const token = req.headers.authorization;
-    const decode = jwt.verify(token, secretKey);
-    if (!decode) {
-      return res.status(401).json({ message: "Invalid token" });
+    try{
+      const decode = jwt.verify(token, secretKey);
+      if (!decode) {
+        return res.status(401).json({ message: "Invalid token" });
+      }
+      const product = req.body;
+      req.body.isDisable = false;
+      product.userid = decode.userId;
+      const document = await productsModel.create(product);
+      res.status(201).json(document);
+    }catch{
+      res.status(401).json("invalid signature");
     }
-    const product = req.body;
-    req.body.isDisable = false;
-    product.userid = decode.userId;
-    const document = await productsModel.create(product);
-    res.status(201).json(document);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -26,8 +30,9 @@ export async function createProduct(req, res) {
 export async function getProduct(req, res) {
   try {
     const id = req.params.id;
+
     const document = await productsModel.findOne({ _id: id, isDisable: false });
-    res.status(200).json(document);
+    document ? res.status(200).json(document): res.sendStatus(404);;
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -35,10 +40,11 @@ export async function getProduct(req, res) {
 //read usuario, texto y categoria
 export async function getProductbyUTandorC(req, res) {
   try {
+    console.log('sipasa')
     const { categoria, nom, userid } = req.query;
     const filter = {
       ...(categoria && { categories: { $in: [categoria] } }),
-      ...(nom && { $text: { $search: nom } }),
+      ...(nom && { description: { $search: nom } }),//cambie esto
       ...(userid && { userid: userid }),
       isDisable: false,
     };

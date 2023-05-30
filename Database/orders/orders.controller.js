@@ -1,7 +1,7 @@
 import ordersModel from "./orders.model.js";
 // jwt key and imports.
 import jwt from "jsonwebtoken";
-const secretKey = process.env.secretKey;
+const secretKey = 'pepeconpan';
 
 //create
 export async function createOrder(req, res) {

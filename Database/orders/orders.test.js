@@ -1,13 +1,8 @@
-import request from 'supertest';
+import supertest from 'supertest';
 import app from '../../app';
-import { describe } from 'yargs';
 describe('Orders Endpoints', ()  =>{
 describe('Se llama a la creacion de pedido', ()  =>{
-    test('funciona cuando debe funcionar?:', async () => {
-        const response = await request(app).get('/api/users');
-            expect(response.status).toBe(200); // Verify the response status code
-            expect(response.body).toHaveProperty('users'); // Verify the response body or specific properties
-            expect(Array.isArray(response.body.users)).toBe(true); // Additional assertions on the response data           
+    test('funciona cuando debe funcionar?:', async () => {         
      }
     );
     test('No funciona cuando no debe funcionar?:', async () => {

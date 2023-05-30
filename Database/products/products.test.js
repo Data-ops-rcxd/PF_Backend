@@ -1,6 +1,5 @@
-import request from 'supertest';
+import supertest from 'supertest';
 import app from '../../app';
-import { describe } from 'yargs';
 import token from '../Users/users.test';
 describe('Product Endpoints', ()  =>{
 describe('Se llama a la creacion de producto', ()  =>{

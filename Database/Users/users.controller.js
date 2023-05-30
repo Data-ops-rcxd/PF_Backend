@@ -1,7 +1,7 @@
 import Users from "./users.model.js";
 // jwt key and imports.
 import jwt from "jsonwebtoken";
-const secretKey = process.env.secretKey;
+const secretKey = 'pepeconpan';
 
 //crea usuario (working)
 export async function createUser(req, res) {
@@ -47,16 +47,20 @@ export async function getUserbyName_pass(req, res) {
 export async function patchUser(req, res) {
   try {
     const token = req.headers.authorization;
-    const decode = jwt.verify(token, secretKey);
-    if (!decode) {
-      return res.status(401).json({ message: 'Invalid token' });
-    }
-    const document = await Users.findOneAndUpdate(
-      { _id: decode.userId, isDisable: false },
-      req.body,
-      { runValidators: true }
-    );
-    document ? res.status(200).json("changes applied") : res.sendStatus(404);
+    try{
+      const decode = jwt.verify(token, secretKey);
+      if (!decode) {
+        return res.status(401).json({ message: 'Invalid token' });
+      }
+      const document = await Users.findOneAndUpdate(
+        { _id: decode.userId, isDisable: false },
+        req.body,
+        { runValidators: true }
+      );
+      document ? res.status(200).json("changes applied") : res.sendStatus(404);
+      }catch{
+        res.status(401).json("invalid signature");
+      }
   } catch (err) {
     res.status(500).json(err.message);
   }
@@ -66,12 +70,16 @@ export async function patchUser(req, res) {
 export async function deleteUser(req, res) {
   try {
     const token = req.headers.authorization;
-    const decode = jwt.verify(token, secretKey);
-    if (!decode) {
-      return res.status(401).json({ message: 'Invalid token' });
+    try{
+      const decode = jwt.verify(token, secretKey);
+      if (!decode) {
+        return res.status(401).json({ message: 'Invalid token' });
+      }
+      const document = await Users.findByIdAndUpdate(decode.userId, { isDisable: true });
+      document ? res.status(200).json("changes applied") : res.sendStatus(404);
+    }catch{
+      res.status(401).json("invalid signature");
     }
-    const document = await Users.findByIdAndUpdate(decode.userId, { isDisable: true });
-    document ? res.status(200).json("changes applied") : res.sendStatus(404);
   } catch (err) {
     res.status(400).json(err.message);
   }

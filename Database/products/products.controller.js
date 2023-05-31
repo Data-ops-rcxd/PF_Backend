@@ -49,7 +49,9 @@ export async function getProductbyUTandorC(req, res) {
       ...(userid && { userid: userid }),
       isDisable: false,
     };
+
     const documents = await productsModel.find(filter);
+    console.log(documents)
     documents.length > 0
       ? res.status(200).json(documents)
       : res.sendStatus(404);

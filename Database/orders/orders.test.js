@@ -42,7 +42,7 @@ describe('Orders Endpoints', ()  =>{
 
     describe('Se llama al retorno de los datos de los pedidos realizados por el usuario, y/o entre las fechas proveídas, si son proveídas', ()  =>{
         test('funciona cuando debe funcionar?:', async () => {
-            const response = await supertest(app).get('/Orders/findorderby/?initial_date=2024-01-01').set('Authorization', token);
+            const response = await supertest(app).get('/Orders/findorderby/?user_id'+id+'initial_date=2023-01-01&final_date=2024-01-01').set('Authorization', token);
             expect(response.status).toBe(200);
         });
        test('No funciona cuando no debe funcionar?:', async () => {
@@ -51,16 +51,16 @@ describe('Orders Endpoints', ()  =>{
         });
     });
 
-    // describe('Se llama a la modificacion de la calificacion y comentarios del pedido', ()  =>{
-    //     test('funciona cuando debe funcionar?:', async () => {
-    //         const response = await supertest(app).patch('/Orders/updateorder'+id).set('Authorization', token);
-    //         expect(response.status).toBe(200);
-    //     });
-    //    test('No funciona cuando no debe funcionar?:', async () => {
-    //     const response = await supertest(app).patch('/Orders/updateorder'+fakeid).set('Authorization', faketoken);
-    //     expect(response.status).toBe(401);
-    //     });
-    // });
+    describe('Se llama a la modificacion de la calificacion y comentarios del pedido', ()  =>{
+        test('funciona cuando debe funcionar?:', async () => {
+            const response = await supertest(app).patch('/Orders/updateorder/'+id).set('Authorization', token);
+            expect(response.status).toBe(200);
+        });
+       test('No funciona cuando no debe funcionar?:', async () => {
+        const response = await supertest(app).patch('/Orders/updateorder/'+fakeid).set('Authorization', faketoken);
+        expect(response.status).toBe(401);
+        });
+    });
 });
 
 // describe('Product Controllers ', () => {

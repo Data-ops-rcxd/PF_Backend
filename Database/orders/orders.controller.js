@@ -1,13 +1,13 @@
 import ordersModel from "./orders.model.js";
 // jwt key and imports.
 import jwt from "jsonwebtoken";
-const secretKey = 'pepeconpan';
+const secretKey = "pepeconpan";
 
 //create
 export async function createOrder(req, res) {
   try {
     const token = req.headers.authorization;
-    let decode
+    let decode;
     try {
       decode = jwt.verify(token, secretKey);
     } catch {
@@ -29,7 +29,7 @@ export async function createOrder(req, res) {
 export async function getOrder(req, res) {
   try {
     const token = req.headers.authorization;
-    let decode
+    let decode;
     try {
       decode = jwt.verify(token, secretKey);
     } catch {
@@ -50,7 +50,7 @@ export async function getOrder(req, res) {
 export async function getOrderbyUandorD(req, res) {
   try {
     const token = req.headers.authorization;
-    let decode
+    let decode;
     try {
       decode = jwt.verify(token, secretKey);
     } catch {
@@ -64,16 +64,18 @@ export async function getOrderbyUandorD(req, res) {
       ...(user_id && { userid: user_id }),
       ...(initial_date &&
         final_date && {
-        createdAt: {
-          $gte: new Date(initial_date),
-          $lt: new Date(final_date), //no estoy seguro como funciona esto de los dates, asuuuuuumo que es con lo de timestamps pero aja
-        },
-      }),
+          createdAt: {
+            $gte: new Date(initial_date),
+            $lt: new Date(final_date), //no estoy seguro como funciona esto de los dates, asuuuuuumo que es con lo de timestamps pero aja
+          },
+        }),
       userid: decode.userId,
       isDisable: false,
     };
     const documents = await ordersModel.find(filter);
-    documents.length > 0 ? res.status(200).json(documents) : res.sendStatus(404);
+    documents.length > 0
+      ? res.status(200).json(documents)
+      : res.sendStatus(404);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -83,7 +85,7 @@ export async function getOrderbyUandorD(req, res) {
 export async function patchOrder(req, res) {
   try {
     const token = req.headers.authorization;
-    let decode
+    let decode;
     try {
       decode = jwt.verify(token, secretKey);
     } catch {
@@ -93,8 +95,16 @@ export async function patchOrder(req, res) {
       return res.status(401).json({ message: "Invalid token" });
     }
     const id = req.params.id;
-    const document = await ordersModel.findOneAndUpdate({ userid: decode.userId, _id: id }, req.body, { runValidators: true });
-    document ? res.status(200).json("Changes applied") : res.status(404).json("Product not found or user didn't create this product");
+    const document = await ordersModel.findOneAndUpdate(
+      { userid: decode.userId, _id: id },
+      req.body,
+      { runValidators: true }
+    );
+    document
+      ? res.status(200).json("Changes applied")
+      : res
+          .status(404)
+          .json("Product not found or user didn't create this product");
   } catch (error) {
     res.status(500).json(error.message);
   }

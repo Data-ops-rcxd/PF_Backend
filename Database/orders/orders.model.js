@@ -1,24 +1,24 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const ordersSchema =  mongoose.Schema(
+const ordersSchema = mongoose.Schema(
   {
     userid: { type: String, required: [true] },
     state: {
       type: String,
       required: [true],
       enum: [
-        'creado',
-        'enviado',
-        'aceptado',
-        'recibido',
-        'en direccion',
-        'realizado',
+        "creado",
+        "enviado",
+        "aceptado",
+        "recibido",
+        "en direccion",
+        "realizado",
       ],
     },
-    productID: { type: String, required: [true]},
+    productID: { type: String, required: [true] },
     comments: { type: String },
     rating: { type: Number },
-    totalprice: {type: Number },
+    totalprice: { type: Number },
     isDisable: { type: Boolean, default: [false] },
   },
   {
@@ -26,4 +26,4 @@ const ordersSchema =  mongoose.Schema(
   }
 );
 
-export default mongoose.model('orders', ordersSchema);
+export default mongoose.model("orders", ordersSchema);

@@ -3,13 +3,13 @@ import productsModel from "./products.model.js";
 import jwt from "jsonwebtoken";
 /* se usa la secretkey para que el servidor pueda decodificar el token que el usario manda de regreso, si no tiene esa 
 secretkey entonces el usuario no reconocido y no se le da acceso a donde quiere ir, en este caso al endpoint */
-const secretKey = 'pepeconpan';
+const secretKey = "pepeconpan";
 
 //create
 export async function createProduct(req, res) {
   try {
     const token = req.headers.authorization;
-    let decode
+    let decode;
     try {
       decode = jwt.verify(token, secretKey);
     } catch {
@@ -33,7 +33,7 @@ export async function getProduct(req, res) {
     const id = req.params.id;
 
     const document = await productsModel.findOne({ _id: id, isDisable: false });
-    document ? res.status(200).json(document) : res.sendStatus(404);;
+    document ? res.status(200).json(document) : res.sendStatus(404);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -41,21 +41,19 @@ export async function getProduct(req, res) {
 //read usuario, texto y categoria
 export async function getProductbyUTandorC(req, res) {
   try {
-
     const { categoria, nom, userid } = req.query;
     const filter = {
       ...(categoria && { categories: { $in: [categoria] } }),
-      ...(nom && { description: { $search: nom } }),//cambie esto
+      ...(nom && { description: { $search: nom } }), //cambie esto
       ...(userid && { userid: userid }),
       isDisable: false,
     };
 
     const documents = await productsModel.find(filter);
-    console.log(documents)
+    console.log(documents);
     documents.length > 0
       ? res.status(200).json(documents)
       : res.sendStatus(404);
-
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -88,7 +86,7 @@ export async function getCategoriesbyUser(req, res) {
 export async function patchProduct(req, res) {
   try {
     const token = req.headers.authorization;
-    let decode
+    let decode;
 
     try {
       decode = jwt.verify(token, secretKey);
@@ -107,8 +105,8 @@ export async function patchProduct(req, res) {
     document
       ? res.status(200).json("Changes applied")
       : res
-        .status(404)
-        .json("Product not found or user didn't create this product");
+          .status(404)
+          .json("Product not found or user didn't create this product");
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -118,7 +116,7 @@ export async function patchProduct(req, res) {
 export async function deleteProduct(req, res) {
   try {
     const token = req.headers.authorization;
-    let decode
+    let decode;
     try {
       decode = jwt.verify(token, secretKey);
     } catch {
@@ -135,8 +133,8 @@ export async function deleteProduct(req, res) {
     document
       ? res.status(200).json("Changes applied")
       : res
-        .status(404)
-        .json("Product not found or user didn't create this product");
+          .status(404)
+          .json("Product not found or user didn't create this product");
   } catch (err) {
     res.status(500).json(err.message);
   }

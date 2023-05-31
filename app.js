@@ -20,7 +20,7 @@ mongoose
   });
 //Middlewares
 app.use(cors());
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 //Routes
 import usersRouter from "./Database/Users/users.router.js";
@@ -32,4 +32,4 @@ app.use("/Orders", ordersRouter);
 
 //Ya instalé los paquetes de jest y supertest, npi de como usarlos
 //
-export default app
+export default app;

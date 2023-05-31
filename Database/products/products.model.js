@@ -2,11 +2,11 @@ import mongoose from "mongoose";
 
 const productsSchema = mongoose.Schema(
   {
-      userid: { type: String, required: [true] },
-      categories: { type: Array},
-      name: { type: String, required: [true] },
-      description: { type: String},
-      price: { type: Number, required: [true] },
+    userid: { type: String, required: [true] },
+    categories: { type: Array },
+    name: { type: String, required: [true] },
+    description: { type: String },
+    price: { type: Number, required: [true] },
     isDisable: { type: Boolean, default: false },
   },
   {
@@ -14,4 +14,4 @@ const productsSchema = mongoose.Schema(
   }
 );
 productsSchema.index({ name: "text" });
-export default mongoose.model('products', productsSchema);
+export default mongoose.model("products", productsSchema);

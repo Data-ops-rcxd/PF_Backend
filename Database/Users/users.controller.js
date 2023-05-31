@@ -8,7 +8,7 @@ export async function createUser(req, res) {
   try {
     const userinfo = req.body;
     const document = await Users.create(userinfo);
-    res.status(201).send(document); 
+    res.status(201).send(document);
   } catch (err) {
     res.status(500).json(err.message);
   }
@@ -47,20 +47,21 @@ export async function getUserbyName_pass(req, res) {
 export async function patchUser(req, res) {
   try {
     const token = req.headers.authorization;
-    try{
-      const decode = jwt.verify(token, secretKey);
-      if (!decode) {
-        return res.status(401).json({ message: 'Invalid token' });
-      }
-      const document = await Users.findOneAndUpdate(
-        { _id: decode.userId, isDisable: false },
-        req.body,
-        { runValidators: true }
-      );
-      document ? res.status(200).json("changes applied") : res.sendStatus(404);
-      }catch{
-        res.status(401).json("invalid signature");
-      }
+    let decode
+    try {
+      decode = jwt.verify(token, secretKey);
+    } catch {
+      return res.status(401).json("invalid signature");
+    }
+    if (!decode) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+    const document = await Users.findOneAndUpdate(
+      { _id: decode.userId, isDisable: false },
+      req.body,
+      { runValidators: true }
+    );
+    document ? res.status(200).json("changes applied") : res.sendStatus(404);
   } catch (err) {
     res.status(500).json(err.message);
   }
@@ -70,16 +71,17 @@ export async function patchUser(req, res) {
 export async function deleteUser(req, res) {
   try {
     const token = req.headers.authorization;
-    try{
-      const decode = jwt.verify(token, secretKey);
-      if (!decode) {
-        return res.status(401).json({ message: 'Invalid token' });
-      }
-      const document = await Users.findByIdAndUpdate(decode.userId, { isDisable: true });
-      document ? res.status(200).json("changes applied") : res.sendStatus(404);
-    }catch{
-      res.status(401).json("invalid signature");
+    let decode
+    try {
+      decode = jwt.verify(token, secretKey);
+    } catch {
+      return res.status(401).json("invalid signature");
     }
+    if (!decode) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+    const document = await Users.findByIdAndUpdate(decode.userId, { isDisable: true });
+    document ? res.status(200).json("changes applied") : res.sendStatus(404);
   } catch (err) {
     res.status(400).json(err.message);
   }

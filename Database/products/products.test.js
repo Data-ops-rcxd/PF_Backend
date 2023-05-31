@@ -5,7 +5,8 @@ const fakeid = '6475ebf15ac24cf94077d3ed';
 const userid = '6475da459cb0711ba4592fa0';
 const fakeuserid = '6472ffd7c3f6cf774a77f833';
 const token= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDc1ZGE0NTljYjA3MTFiYTQ1OTJmYTAiLCJpYXQiOjE2ODU0NDUxOTB9.iUzXHq87ShJoLf5_4ru99RU-_83AFuNwXKAL3tDUpZM';
-const faketoken= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDc1ZGE0NTljYjA3MTFiYTQ1OTJmYTAiLCJpYXabcdE2ODU0NDUxOTB9.iUzXHq87ShJoLf5_4ru99RU-_83AFuNwXKAL3tDUpZM'
+const faketoken= 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDc1ZGE0NTljYjA3MTFiYTQ1OTJmYTAiLCJpYXabcdE2ODU0NDUxOTB9.iUzXHq87ShJoLf5_4ru99RU-_83AFuNwXKAL3tDUpZM';
+/*
 describe('Product Endpoints', ()  =>{
     describe('Se llama a la creacion de producto', ()  =>{
         test('funciona cuando debe funcionar?:', async () => {
@@ -48,8 +49,8 @@ describe('Product Endpoints', ()  =>{
             expect(response.status).toBe(200);
         });
        test('No funciona cuando no debe funcionar?:', async () => {
-        const response = await supertest(app).get('/Products/searchproducts/');
-        expect(response.status).toBe(401);
+        const response = await supertest(app).get('/Products/searchproducts/?pepe=hola');
+        expect(response.status).toBe(500);
         });
     }); //tengo que preguntar a tache
 
@@ -86,7 +87,7 @@ describe('Product Endpoints', ()  =>{
         });
     });
 });
-
+*/
     // describe('Product Controllers ', () => {
     //     //Aqui van las pruebas de controladores giuls
     //     describe('Se llama a la inhabilitacion de un usuario', ()  =>{

@@ -46,7 +46,7 @@ export async function getOrder(req, res) {
   }
 }
 
-//get pedido por usuari y/o fechas
+//get pedido por usuario y/o fechas
 export async function getOrderbyUandorD(req, res) {
   try {
     const token = req.headers.authorization;
@@ -59,14 +59,13 @@ export async function getOrderbyUandorD(req, res) {
     if (!decode) {
       return res.status(401).json({ message: "Invalid token" });
     }
-    const { user_id, initial_date, final_date } = req.query;
+    const { initial_date, final_date } = req.query;
     const filter = {
-      ...(user_id && { userid: user_id }),
       ...(initial_date &&
         final_date && {
           createdAt: {
             $gte: new Date(initial_date),
-            $lt: new Date(final_date), //no estoy seguro como funciona esto de los dates, asuuuuuumo que es con lo de timestamps pero aja
+            $lt: new Date(final_date),
           },
         }),
       userid: decode.userId,

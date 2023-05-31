@@ -1,5 +1,6 @@
-/*import supertest from "supertest";
+import supertest from "supertest";
 import app from "../../app.js";
+
 const mail = "aaaaaaaa@ddddd.com";
 const cont = "aa1234";
 describe("User Endpoints ", () => {
@@ -196,4 +197,3 @@ describe("User Controllers ", () => {
     });
   });
 });
-*/

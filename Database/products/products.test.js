@@ -1,7 +1,6 @@
-//import supertest from "supertest";
-//import app from "../../app";
+import supertest from "supertest";
+import app from "../../app";
 
-/*
 let id;
 const fakeid = "6475ebf15ac24cf94077d3ed";
 const userid = "6475da459cb0711ba4592fa0";
@@ -113,15 +112,9 @@ describe("Product Endpoints", () => {
     });
   });
 });
-*/
 
-/*
 //Product Controllers Test
 describe("Product Controllers ", () => {
-  let tk = "";
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDc1ZGE0NTljYjA3MTFiYTQ1OTJmYTAiLCJpYXQiOjE2ODU0NDUxOTB9.iUzXHq87ShJoLf5_4ru99RU-_83AFuNwXKAL3tDUpZM";
-
   //POST / Create
   describe("Se llama a la creacion de producto", () => {
     test("Crear producto", async () => {
@@ -228,7 +221,7 @@ describe("Product Controllers ", () => {
       expect(response.body).toBe("Changes applied");
     });
   });
-  
+
   //DELETE / Delete
   describe("Se llama al delete del producto", () => {
     test("Borrar producto", async () => {
@@ -242,4 +235,3 @@ describe("Product Controllers ", () => {
     });
   });
 });
-*/

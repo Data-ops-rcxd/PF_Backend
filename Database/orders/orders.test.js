@@ -158,10 +158,11 @@ describe("Order Controllers ", () => {
 
       response.body.forEach((product) => {
         expect(product).toBeDefined();
-        //expect(product.createdAt).toBeGreaterThanOrEqual(
-        //  test_body.initial_date
-        //);
-        //expect(product.createdAt).toBeLessThanOrEqual(test_body.final_date);
+        expect(product).toStrictEqual(
+          expect.objectContaining({
+            userid: "6475da459cb0711ba4592fa0",
+          })
+        );
       });
     });
   });

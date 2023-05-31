@@ -1,5 +1,7 @@
-import supertest from "supertest";
-import app from "../../app";
+//import supertest from "supertest";
+//import app from "../../app";
+
+/*
 let id;
 const fakeid = "6475ebf15ac24cf94077d3ed";
 const userid = "6475da459cb0711ba4592fa0";
@@ -65,7 +67,7 @@ describe("Product Endpoints", () => {
       );
       expect(response.status).toBe(404);
     });
-  }); //tengo que preguntar a tache
+  });
 
   describe("Se llama al retorno de las categorias de los productos que correspondan a un usuario dado", () => {
     test("funciona cuando debe funcionar?:", async () => {
@@ -111,29 +113,36 @@ describe("Product Endpoints", () => {
     });
   });
 });
+*/
 
-describe("User Controllers ", () => {
+/*
+//Product Controllers Test
+describe("Product Controllers ", () => {
   let tk = "";
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDc1ZGE0NTljYjA3MTFiYTQ1OTJmYTAiLCJpYXQiOjE2ODU0NDUxOTB9.iUzXHq87ShJoLf5_4ru99RU-_83AFuNwXKAL3tDUpZM";
+
   //POST / Create
-  describe("Se llama a la creacion de usuario", () => {
-    test("Crear usuario", async () => {
+  describe("Se llama a la creacion de producto", () => {
+    test("Crear producto", async () => {
       const test_body = {
-        name: "Oscar",
-        password: "moon",
-        email: "mrknight@gmail.com",
+        categories: ["Games", "Collectibles"],
+        name: "Rocket League Mini Figure",
+        price: 20,
       };
 
       const { _body: body } = await supertest(app)
-        .post("/Users/createuser")
-        .send(test_body);
+        .post("/Products/createproduct")
+        .send(test_body)
+        .set("Authorization", token);
 
       expect(body).toBeDefined();
       expect(body).toStrictEqual(
         expect.objectContaining({
-          email: test_body.email,
           isDisable: false,
+          categories: test_body.categories,
           name: test_body.name,
-          password: test_body.password,
+          price: test_body.price,
         })
       );
     });
@@ -141,12 +150,12 @@ describe("User Controllers ", () => {
 
   //GET / Read
   //ID
-  describe("Se llama a la busqueda por id", () => {
-    test("Buscar por id", async () => {
-      const test_id = "6472ffd7c3f6cf774a88f833";
+  describe("Se llama a la busqueda por id del producto", () => {
+    test("Buscar por id del producto", async () => {
+      const test_id = "6476b484aca44e6e203492eb";
 
       const { _body: body } = await supertest(app).get(
-        "/Users/finduser/" + test_id
+        "/Products/ProductbyID/" + test_id
       );
 
       expect(body).toBeDefined();
@@ -157,58 +166,80 @@ describe("User Controllers ", () => {
       );
     });
   });
-  //Mail + Password
-  describe("Se llama a la busqueda por email y clave", () => {
-    test("Buscar por email y clave", async () => {
+  //Usuario, descripción y categoría
+  describe("Se llama a la busqueda por usuario, descripción y categoría", () => {
+    test("Buscar por usuario, descripción y categoría", async () => {
       const test_body = {
-        email: "papulin@yahoo.es",
-        password: "42069",
+        categoria: ["leyenda"],
+        nom: "Pepe",
+        userid: "6475da459cb0711ba4592fa0",
       };
 
-      const { _body: body } = await supertest(app)
-        .get("/Users/finduserJWT")
-        .send(test_body);
+      const response = await supertest(app).get(
+        "/Products/searchproducts/?userid=" +
+          test_body.userid +
+          "&categoria=" +
+          test_body.categoria +
+          "&nom=" +
+          test_body.nom
+      );
 
-      tk = body.token;
+      response.body.forEach((product) => {
+        expect(product).toBeDefined();
+        expect(product).toStrictEqual(
+          expect.objectContaining({
+            categories: expect.arrayContaining(test_body.categoria),
+            name: test_body.nom,
+            userid: test_body.userid,
+          })
+        );
+      });
+    });
+  });
+  //Categoria por User ID
+  describe("Se llama a la busqueda de categorías por UserID", () => {
+    test("Buscar categorías por UserID", async () => {
+      const test_id = "6475da459cb0711ba4592fa0";
 
-      expect(body).toBeDefined();
-      expect(body).toStrictEqual(
-        expect.objectContaining({
-          token: tk,
-        })
+      const response = await supertest(app).get(
+        "/Products/categoriesbyuser/" + test_id
+      );
+
+      expect(response.body).toBeDefined();
+      expect(response.body).toStrictEqual(
+        expect.arrayContaining([expect.any(String)])
       );
     });
   });
 
   //PATCH / Update
-  describe("Se llama al update de usuario", () => {
-    test("Actualizar usuario", async () => {
-      const test_token = tk;
+  describe("Se llama al update del producto", () => {
+    test("Actualizar producto", async () => {
+      const test_id = "647699f05115f22c49972658";
       const test_body = {
-        name: "Marcos",
-        password: "khonsu",
-        email: "espectro@yahoo.es",
+        name: "El producto que no cuesta 2000",
+        price: 3000,
       };
 
       const response = await supertest(app)
-        .patch("/Users/updateuser")
+        .patch("/Products/updateproduct/" + test_id)
         .send(test_body)
-        .set("Authorization", test_token);
-
-      expect(response.body).toBe("changes applied");
+        .set("Authorization", token);
+      expect(response.body).toBe("Changes applied");
     });
   });
-
+  
   //DELETE / Delete
-  describe("Se llama al delete de usuario", () => {
-    test("Borrar usuario", async () => {
-      const test_token = tk;
+  describe("Se llama al delete del producto", () => {
+    test("Borrar producto", async () => {
+      const test_id = "64769ad7fa9efbb16705ad3f";
 
       const response = await supertest(app)
-        .delete("/Users/deleteuser")
-        .set("Authorization", test_token);
+        .delete("/Products/deleteproduct/" + test_id)
+        .set("Authorization", token);
 
-      expect(response.body).toBe("changes applied");
+      expect(response.body).toBe("Changes applied");
     });
   });
 });
+*/

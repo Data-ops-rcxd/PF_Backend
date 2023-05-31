@@ -44,13 +44,12 @@ export async function getProductbyUTandorC(req, res) {
     const { categoria, nom, userid } = req.query;
     const filter = {
       ...(categoria && { categories: { $in: [categoria] } }),
-      ...(nom && { description: { $search: nom } }), //cambie esto
+      ...(nom && { $text: { $search: nom } }), //cambie esto
       ...(userid && { userid: userid }),
       isDisable: false,
     };
 
     const documents = await productsModel.find(filter);
-    console.log(documents);
     documents.length > 0
       ? res.status(200).json(documents)
       : res.sendStatus(404);

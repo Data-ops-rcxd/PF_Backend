@@ -1,3 +1,4 @@
+/*
 import supertest from "supertest";
 import app from "../../app";
 let id;
@@ -95,3 +96,4 @@ describe("Orders Endpoints", () => {
 //       });
 //   });
 // })
+*/

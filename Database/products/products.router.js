@@ -18,9 +18,9 @@ router.get("/categoriesbyuser/:userid", getCategoriesbyUser);
 router.post("/createproduct", createProduct);
 
 // Endpoint PATCH
-router.patch("/:id", patchProduct);
+router.patch("/updateproduct/:id", patchProduct);
 
 // Endpoint DELETE
-router.delete("/:id", deleteProduct);
+router.delete("/deleteproduct/:id", deleteProduct);
 
 export default router;
